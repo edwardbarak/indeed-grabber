@@ -1,2 +1,4 @@
 *.nlsv
 *.txt
+VIRTUAL
+*settings.json
