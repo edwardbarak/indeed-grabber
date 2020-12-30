@@ -1,14 +1,15 @@
+# IMPORTS
 import requests
 import sys
-import re
 from lxml import etree
 
-# XML SELECTORS CONFIG
+# CONFIG
 jobTitleSelector = '/html/body/div[1]/div[2]/div[3]/div/div/div[1]/div[1]/div/div[3]/div[1]/div[1]/h1/text()'
 companySelector = '/html/body/div[1]/div[2]/div[3]/div/div/div[1]/div[1]/div/div[3]/div[1]/div[2]/div/div/div/div[1]/a/text()'
+liFormat = '<li><a href="{url}">{jobTitle} @ {company}</a></li>'
 
-# Functions
-def openUrls():
+# FUNCTIONS
+def open_urls():
     fname = sys.argv[1]
     with open(fname, 'r') as f:
         urls = f.read()
@@ -19,18 +20,21 @@ def openUrls():
 
     return urls
 
-def 
-
-if __name__ == "__main__":
-    # ptn = re.compile('^(.*?)\..*')
-    # fname = ptn.findall(sys.argv[1])[0]
-
-    # open text file with URLs
-    urls = openUrls()
+def select_and_format(url):
+    r = requests.get(url)
+    dom = etree.HTML(r.content)
+    jobTitle = dom.xpath(jobTitleSelector)
+    company = dom.xpath(companySelector)
+    li = liFormat.format(url=url, jobTitle=jobTitle, company=company)
+    return li
     
-    # loop through each URL and grab the following:
-        # Job title
-        # Company name
+# MAIN
+if __name__ == "__main__":
+    # open text file with URLs
+    urls = open_urls()
+    
+    # loop through each URL and grab job title and company name into <li> for <ol>
+    ol = [select_and_format(url) for url in urls]
+    
+    # export results to  html
 
-    [for url in urls]
-    # Create numbered list of jobs
