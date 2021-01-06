@@ -19,6 +19,7 @@ def open_urls():
         f.close()
     
     urls = urls.split('\n')
+    if urls[-1] == '': urls = urls[:-1]
 
     return urls
 
