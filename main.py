@@ -21,7 +21,7 @@ def open_urls():
     urls = urls.split('\n')
     if urls[-1] == '': urls = urls[:-1]
 
-    return urls
+    return list(set(urls)) # remove duplicates
 
 def select_and_format(url):
     r = requests.get(url)
